@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
 function HomepageSender() {
-
-    
   const [senderName, setSenderName] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
   const [senderContact, setSenderContact] = useState("");
@@ -20,8 +17,7 @@ function HomepageSender() {
   const [status, setStatus] = useState("");
   const [type, setType] = useState("");
 
-  const [data, setData] = useState([]);
-  const [address, setAddress] = useState([]);
+  const [cityName, setCityName] = useState([]);
 
   async function AddPackage() {
     let item = {
@@ -54,20 +50,19 @@ function HomepageSender() {
     console.warn("response", result);
   }
 
-  useEffect( ()=> {
-    async function fetchMyAPI(){
-    let result = await fetch("http://localhost:8080/api/operation-center");
-    result= await result.json();
-    setData(result)
+  useEffect(() => {
+    async function fetchCityName() {
+      let result = await fetch("http://localhost:8080/api/operation-center");
+      result = await result.json();
+      setCityName(result);
     }
-    fetchMyAPI()
-  
-  },[])
+    fetchCityName();
+  }, []);
 
   return (
     <>
       <h1> Add A Package</h1>
-      
+
       <header className="App-header">
         <input
           type="text"
@@ -141,25 +136,22 @@ function HomepageSender() {
           onChange={(e) => setStatus(e.target.value)}
           placeholder="Status"
         ></input>
-
-     
-       
-      
-       
-        <select
-          id="myList"
-          onChange={(e) => setType(e.target.value)}
-        >
-         {data.map((item)=>
-         
-          <option value = {item.address}> {item.address} </option>
-       
-          
-          )
-       }
+        <div> Select a city</div>
+        <select id="myList" onChange={(e) => setType(e.target.value)}>
+          {cityName.map((item) => (
+            <option value={item.cityName}> {item.cityName} </option>
+          ))}
         </select>
-        
-        <button onClick={AddPackage}>Register</button>
+        <div> Select an address</div>
+        <select id="myList" onChange={(e) => setType(e.target.value)}>
+          {cityName.map((item) => (
+            <option value={item.address}> {item.address} </option>
+          ))}
+        </select>
+
+        <button style={{ marginTop: 10 }} onClick={AddPackage}>
+          Add a package
+        </button>
       </header>
     </>
   );
