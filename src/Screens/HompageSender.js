@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import DateTimePicker from 'react-datetime-picker';
+
 
 function HomepageSender() {
   const [senderName, setSenderName] = useState("");
@@ -10,14 +11,12 @@ function HomepageSender() {
   const [receiverContact, setReceiverContact] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
   const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [width, setWidth] = useState("");
   const [length, setLength] = useState("");
   const [price, setPrice] = useState("");
-  const [status, setStatus] = useState("");
   const [type, setType] = useState("");
 
-  const [cityName, setCityName] = useState([]);
+  const [OperationDetails, setOperationDetails] = useState([]);
+  const [value, onChange] = useState(new Date());
 
   async function AddPackage() {
     let item = {
@@ -28,11 +27,8 @@ function HomepageSender() {
       receiverContact,
       receiverAddress,
       weight,
-      height,
-      width,
       length,
       price,
-      status,
       type,
     };
     console.warn(item);
@@ -51,12 +47,12 @@ function HomepageSender() {
   }
 
   useEffect(() => {
-    async function fetchCityName() {
+    async function fetchOperationDetails() {
       let result = await fetch("http://localhost:8080/api/operation-center");
       result = await result.json();
-      setCityName(result);
+      setOperationDetails(result);
     }
-    fetchCityName();
+    fetchOperationDetails();
   }, []);
 
   return (
@@ -106,18 +102,7 @@ function HomepageSender() {
           onChange={(e) => setWeight(e.target.value)}
           placeholder="Package Weight"
         ></input>
-        <input
-          type="text"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-          placeholder="Package Height"
-        ></input>
-        <input
-          type="text"
-          value={width}
-          onChange={(e) => setWidth(e.target.value)}
-          placeholder="Package WIdth"
-        ></input>
+
         <input
           type="text"
           value={length}
@@ -130,24 +115,24 @@ function HomepageSender() {
           onChange={(e) => setPrice(e.target.value)}
           placeholder="Package Price"
         ></input>
-        <input
-          type="text"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          placeholder="Status"
-        ></input>
-        <div> Select a city</div>
-        <select id="myList" onChange={(e) => setType(e.target.value)}>
-          {cityName.map((item) => (
-            <option value={item.cityName}> {item.cityName} </option>
+
+        <div> Select your nearby operational center</div>
+        <select id="myList"
+        
+         onChange={(e) => {
+            setType(e.target.value)
+            console.error(e.target)
+         } }>
+          {OperationDetails.map((item) => (
+            <option value={[item.address, item.cityName]}>
+              {" "}
+              {[item.address +", ",  item.cityName +", ", item.telNumber]}
+            </option>
           ))}
         </select>
-        <div> Select an address</div>
-        <select id="myList" onChange={(e) => setType(e.target.value)}>
-          {cityName.map((item) => (
-            <option value={item.address}> {item.address} </option>
-          ))}
-        </select>
+  <div>
+      <DateTimePicker onChange={onChange} value={value} />
+    </div>
 
         <button style={{ marginTop: 10 }} onClick={AddPackage}>
           Add a package
