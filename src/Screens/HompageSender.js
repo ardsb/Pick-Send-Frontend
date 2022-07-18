@@ -14,7 +14,9 @@ function HomepageSender() {
   const [length, setLength] = useState("");
   const [price, setPrice] = useState("");
   const [type, setType] = useState("");
-
+  const [packageId, setpackageId] = useState("");
+  const [packageStatus, setPackageStatus] = useState("");
+  const [dateCreated, setdateCreated] = useState("");
   const [OperationDetails, setOperationDetails] = useState([]);
   const [value, onChange] = useState(new Date());
 
@@ -46,6 +48,29 @@ function HomepageSender() {
     console.warn("response", result);
   }
 
+
+  async function PackageStatus() {
+    let item = {
+      packageStatus,
+      dateCreated,
+    };
+    console.warn(item);
+
+    let result = await fetch("http://localhost:8080/api/package_tracks", {
+      method: "POST",
+      body: JSON.stringify(item),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+
+    result = await result.JSON;
+    console.warn("response", result);
+  }
+
+  
+
   useEffect(() => {
     async function fetchOperationDetails() {
       let result = await fetch("http://localhost:8080/api/operation-center");
@@ -55,6 +80,13 @@ function HomepageSender() {
     fetchOperationDetails();
   }, []);
 
+    
+  function onClick(){
+    PackageStatus();
+    AddPackage();
+  }
+  
+
   return (
     <>
       <h1> Add A Package</h1>
@@ -62,7 +94,7 @@ function HomepageSender() {
       <header className="App-header">
         <input
           type="text"
-          value={""}
+          value={senderName}
           onChange={(e) => setSenderName(e.target.value)}
           placeholder="Your Name "
         ></input>
@@ -115,9 +147,21 @@ function HomepageSender() {
           onChange={(e) => setPrice(e.target.value)}
           placeholder="Package Price"
         ></input>
+          <input
+          type="text"
+          value={packageStatus}
+          onChange={(e) => setPackageStatus(e.target.value)}
+          placeholder="Package Satus"
+        ></input>
+          <input
+          type="text"
+          value={dateCreated}
+          onChange={(e) => setdateCreated(e.target.value)}
+          placeholder="Package Created Date"
+        ></input>
 
         <div> Select your nearby operational center</div>
-        <select id="myList"
+        {/* <select id="myList"
         
          onChange={(e) => {
             setType(e.target.value)
@@ -129,12 +173,12 @@ function HomepageSender() {
               {[item.address +", ",  item.cityName +", ", item.telNumber]}
             </option>
           ))}
-        </select>
-  <div>
+        </select> */}
+  {/* <div>
       <DateTimePicker onChange={onChange} value={value} />
-    </div>
+    </div> */}
 
-        <button style={{ marginTop: 10 }} onClick={AddPackage}>
+        <button style={{ marginTop: 10 }} onClick={onClick}>
           Add a package
         </button>
       </header>
