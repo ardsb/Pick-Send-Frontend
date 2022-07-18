@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
-import DateTimePicker from 'react-datetime-picker';
-
+import DateTimePicker from "react-datetime-picker";
 
 function AdminPage() {
   const [cityName, setCityName] = useState("");
   const [address, setAddress] = useState("");
   const [telNumber, setTelnumber] = useState("");
+  const [PackageTrackDetails, setPackageTrackDetails] = useState([]);
 
   const [value, onChange] = useState(new Date());
-
 
   async function addOperationCenter() {
     //making into Object
@@ -29,6 +28,15 @@ function AdminPage() {
     console.warn("response", result);
   }
 
+  useEffect(() => {
+    async function fetchPackageTracksDetails() {
+      let result = await fetch("http://localhost:8080/api/package_tracks");
+      result = await result.json();
+      setPackageTrackDetails(result);
+    }
+    fetchPackageTracksDetails();
+  }, []);
+
   return (
     <div className="App">
       <h1> Admin Panel</h1>
@@ -40,7 +48,7 @@ function AdminPage() {
           onChange={(e) => setCityName(e.target.value)}
           placeholder="Enter City Name"
         ></input>
-      
+
         <input
           type="text"
           value={address}
@@ -48,12 +56,21 @@ function AdminPage() {
           placeholder="Enter Address"
         ></input>
 
-<input
+        <input
           type="text"
           value={telNumber}
           onChange={(e) => setTelnumber(e.target.value)}
           placeholder="Enter Telephone Number"
         ></input>
+
+{PackageTrackDetails.map((item) => (
+          <input
+          type="text"
+          value={[item.packageStatus,item.packageId,item.dateCreated]}
+          onChange={(e) => setPackageTrackDetails(e.target.value)}
+          placeholder="Package Satus"
+        ></input>
+         ))}
 
         <button onClick={addOperationCenter}>Add Operation Center</button>
       </header>

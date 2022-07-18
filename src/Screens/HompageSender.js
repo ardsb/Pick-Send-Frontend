@@ -11,7 +11,7 @@ function HomepageSender() {
   const [receiverContact, setReceiverContact] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
   const [weight, setWeight] = useState("");
-  const [length, setLength] = useState("");
+  const [size, setSize] = useState("");
   const [price, setPrice] = useState("");
   const [type, setType] = useState("");
   const [packageId, setpackageId] = useState("");
@@ -29,7 +29,7 @@ function HomepageSender() {
       receiverContact,
       receiverAddress,
       weight,
-      length,
+      size,
       price,
       type,
     };
@@ -53,6 +53,7 @@ function HomepageSender() {
     let item = {
       packageStatus,
       dateCreated,
+      packageId
     };
     console.warn(item);
 
@@ -79,6 +80,8 @@ function HomepageSender() {
     }
     fetchOperationDetails();
   }, []);
+
+ 
 
     
   function onClick(){
@@ -137,8 +140,8 @@ function HomepageSender() {
 
         <input
           type="text"
-          value={length}
-          onChange={(e) => setLength(e.target.value)}
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
           placeholder="Package Lenght"
         ></input>
         <input
@@ -147,11 +150,12 @@ function HomepageSender() {
           onChange={(e) => setPrice(e.target.value)}
           placeholder="Package Price"
         ></input>
-          <input
+         
+        <input
           type="text"
-          value={packageStatus}
-          onChange={(e) => setPackageStatus(e.target.value)}
-          placeholder="Package Satus"
+          value={packageId}
+          onChange={(e) => setpackageId(e.target.value)}
+          placeholder="Package ID"
         ></input>
           <input
           type="text"
@@ -161,22 +165,22 @@ function HomepageSender() {
         ></input>
 
         <div> Select your nearby operational center</div>
-        {/* <select id="myList"
+        <select id="myList"
         
          onChange={(e) => {
             setType(e.target.value)
             console.error(e.target)
          } }>
           {OperationDetails.map((item) => (
-            <option value={[item.address, item.cityName]}>
+            <option value={[item.address, item.cityName,item.telNumber]}>
               {" "}
               {[item.address +", ",  item.cityName +", ", item.telNumber]}
             </option>
           ))}
-        </select> */}
-  {/* <div>
+        </select> 
+   <div>
       <DateTimePicker onChange={onChange} value={value} />
-    </div> */}
+    </div> 
 
         <button style={{ marginTop: 10 }} onClick={onClick}>
           Add a package
