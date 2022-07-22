@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DateTimePicker from "react-datetime-picker";
 
-function AdminPage() {
+function AdminHome() {
   const [cityName, setCityName] = useState("");
   const [address, setAddress] = useState("");
   const [telNumber, setTelnumber] = useState("");
@@ -106,13 +106,13 @@ function AdminPage() {
       receiverContact,
       receiverName,
       senderAddress,
-      
+
       senderContact,
       senderName,
       size,
       type,
       weight
-     
+
     };
     console.warn("item", item);
     fetch(`http://localhost:8080/api/package/${packageId}`, {
@@ -234,21 +234,21 @@ function AdminPage() {
           value={cityName}
           onChange={(e) => setCityName(e.target.value)}
           placeholder="Enter City Name"
-        ></input>
+        />
 
         <input
           type="text"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           placeholder="Enter Address"
-        ></input>
+       />
 
         <input
           type="text"
           value={telNumber}
           onChange={(e) => setTelnumber(e.target.value)}
           placeholder="Enter Telephone Number"
-        ></input>
+        />
         <div>
           <input
             type="text"
@@ -276,4 +276,4 @@ function AdminPage() {
   );
 }
 
-export default AdminPage;
+export default AdminHome;

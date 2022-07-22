@@ -1,7 +1,7 @@
 
 import React, { useState,useEffect } from "react";
 
-function HomepageReciever(){
+function ReceiverHome(){
     const [PackageTrackDetails, setPackageTrackDetails] = useState([]);
     useEffect(() => {
         async function fetchPackageTracksDetails() {
@@ -11,10 +11,10 @@ function HomepageReciever(){
         }
         fetchPackageTracksDetails();
       }, []);
-    
+
     return(
-        <> 
-        
+        <>
+
         <div className="App">
       <h1> Admin Panel</h1>
       <header className="App-header">
@@ -32,6 +32,6 @@ function HomepageReciever(){
       </div>
 </>
     )
-} 
+}
 
-export default HomepageReciever
+export default ReceiverHome
