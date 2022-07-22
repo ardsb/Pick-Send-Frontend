@@ -32,6 +32,8 @@ function HomepageSender() {
       size,
       price,
       type,
+      packageStatus,
+      dateCreated
     };
     console.warn(item);
 
@@ -49,26 +51,7 @@ function HomepageSender() {
   }
 
 
-  async function PackageStatus() {
-    let item = {
-      packageStatus,
-      dateCreated,
-      packageId
-    };
-    console.warn(item);
-
-    let result = await fetch("http://localhost:8080/api/package_tracks", {
-      method: "POST",
-      body: JSON.stringify(item),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-
-    result = await result.JSON;
-    console.warn("response", result);
-  }
+ 
 
   
 
@@ -85,13 +68,14 @@ function HomepageSender() {
 
     
   function onClick(){
-    PackageStatus();
+  
     AddPackage();
   }
   
 
   return (
     <>
+    <div className="App"> 
       <h1> Add A Package</h1>
 
       <header className="App-header">
@@ -153,9 +137,9 @@ function HomepageSender() {
          
         <input
           type="text"
-          value={packageId}
-          onChange={(e) => setpackageId(e.target.value)}
-          placeholder="Package ID"
+          value={packageStatus}
+          onChange={(e) => setPackageStatus(e.target.value)}
+          placeholder="Package status"
         ></input>
           <input
           type="text"
@@ -186,6 +170,7 @@ function HomepageSender() {
           Add a package
         </button>
       </header>
+      </div>
     </>
   );
 }
