@@ -98,30 +98,17 @@ function AdminHome() {
   }
   function updateUser() {
     let item = {
-      dateCreated,
-      packageId,
-      packageStatus,
-      price,
-      receiverAddress,
-      receiverContact,
-      receiverName,
-      senderAddress,
-
-      senderContact,
-      senderName,
-      size,
-      type,
-      weight
+    
 
     };
     console.warn("item", item);
-    fetch(`http://localhost:8080/api/package/${packageId}`, {
+    fetch(`http://localhost:8080/api/package/${packageId}/changeStatus/${packageStatus}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(item),
+     
     }).then((result) => {
       result.json().then((resp) => {
         console.warn(resp);
